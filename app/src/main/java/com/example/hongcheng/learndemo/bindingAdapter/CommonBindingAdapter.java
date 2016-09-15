@@ -12,7 +12,16 @@ import com.squareup.picasso.Picasso;
  */
 public class CommonBindingAdapter {
     @BindingAdapter({"imageUrl"})
-    public static void setImageUrl(ImageView view, String url) {
-        Picasso.with(view.getContext()).load(url).error(BaseApplication.getInstance().getResources().getDrawable(R.mipmap.example)).into(view);
+    public static void setImageUrl(final ImageView view, final String url) {
+        view.post(new Runnable() {
+            @Override
+            public void run() {
+                Picasso.with(view.getContext()).load(url)
+                        .resize(view.getMeasuredWidth(), view.getMeasuredHeight())
+                        .centerCrop()
+                        .error(BaseApplication.getInstance().getResources().getDrawable(R.mipmap.example))
+                        .into(view);
+            }
+        });
     }
 }
