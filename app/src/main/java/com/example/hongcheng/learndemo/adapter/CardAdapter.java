@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 
 import com.example.hongcheng.common.util.SafeIntentUtils;
 import com.example.hongcheng.learndemo.R;
-import com.example.hongcheng.learndemo.activity.DetailActivity;
+import com.example.hongcheng.learndemo.activity.CardDetailActivity;
 import com.example.hongcheng.learndemo.adapter.models.CardModel;
 import com.example.hongcheng.learndemo.adapter.viewHolders.CardViewHolder;
 import com.example.hongcheng.learndemo.base.BaseListAdapter;
@@ -42,7 +42,7 @@ public class CardAdapter extends BaseListAdapter<CardModel, CardViewHolder> {
         viewHolder.getBinding().getRoot().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(mContext, DetailActivity.class);
+                Intent intent = new Intent(mContext, CardDetailActivity.class);
                 intent.putExtra(SafeIntentUtils.INTENT_MODEL, model);
                 mContext.startActivity(intent);
             }

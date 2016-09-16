@@ -2,6 +2,7 @@
 <resources>
     <color name="colorDefault">#00B4E6</color>
     <color name="colorDefaultPressed">#5DCCFF</color>
+    <color name="colorTranslucent">#00000000</color>
     <color name="colorWhite">#FFFFFF</color>
     <color name="colorBlack">#000000</color>
     <color name="default_background">#F5F5F5</color>

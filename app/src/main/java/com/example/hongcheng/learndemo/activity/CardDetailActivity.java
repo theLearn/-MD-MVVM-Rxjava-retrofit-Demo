@@ -1,6 +1,7 @@
 package com.example.hongcheng.learndemo.activity;
 
 import android.os.Bundle;
+import android.support.design.widget.AppBarLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -9,6 +10,7 @@ import android.view.View;
 
 import com.example.hongcheng.common.constant.BaseConstants;
 import com.example.hongcheng.common.util.SafeIntentUtils;
+import com.example.hongcheng.common.util.ScreenUtils;
 import com.example.hongcheng.data.RetrofitManager;
 import com.example.hongcheng.data.request.CardRetrofit;
 import com.example.hongcheng.data.response.CardDetailResponse;
@@ -21,6 +23,7 @@ import com.example.hongcheng.learndemo.base.BaseActivity;
 import com.example.hongcheng.learndemo.base.BaseApplication;
 import com.example.hongcheng.learndemo.databinding.ActivityDetailBinding;
 import com.example.hongcheng.learndemo.views.SnackbarUtil;
+import com.example.hongcheng.learndemo.views.viewHelper.AppBarStateChangeListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,8 +35,9 @@ import rx.schedulers.Schedulers;
 /**
  * Created by hongcheng on 16/9/5.
  */
-public class DetailActivity extends BaseActivity {
+public class CardDetailActivity extends BaseActivity {
 
+    private AppBarLayout appBarLayout;
     private ListInfoAdapter mAdapter;
 
     @Override
@@ -56,6 +60,9 @@ public class DetailActivity extends BaseActivity {
                 onBackPressed();
             }
         });
+
+        appBarLayout = (AppBarLayout) findViewById(R.id.appBar_detail);
+        appBarLayout.addOnOffsetChangedListener(listener);
     }
 
     @Override
@@ -127,5 +134,29 @@ public class DetailActivity extends BaseActivity {
                         }
                     }
                 }));
+    }
+
+    private AppBarStateChangeListener listener = new AppBarStateChangeListener(){
+
+        @Override
+        public void onStateChanged(AppBarLayout appBarLayout, State state) {
+            if( state == State.EXPANDED ) {
+                //展开状态
+                ScreenUtils.setWindowStatusBarColor(CardDetailActivity.this, R.color.colorTranslucent);
+            }else if(state == State.COLLAPSED){
+                //折叠状态
+                ScreenUtils.setWindowStatusBarColor(CardDetailActivity.this, R.color.colorDefault);
+            }else {
+                //中间状态
+            }
+        }
+    };
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if(appBarLayout != null){
+            appBarLayout.removeOnOffsetChangedListener(listener);
+        }
     }
 }
