@@ -14,6 +14,9 @@ public class HttpConstants {
     //查询缓存的Cache-Control设置
     public static final String CACHE_CONTROL_CACHE = "public, only-if-cached, max-stale=" + CACHE_STALE_SEC;
 
+    //查询缓存的Cache-Control设置
+    public static final String CACHE_CONTROL_ERROR = "public, max-stale=" + 5;
+
     //查询网络的Cache-Control设置
     public static final String CACHE_CONTROL_NETWORK = "max-age=0";
 

@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * Created by hongcheng on 16/9/15.
  */
-public class CardDetailResponse extends BaseResponse implements Parcelable{
+public class CardDetailResponse implements Parcelable{
     private List<CardRecommend> cardRecommends;
 
     public List<CardRecommend> getCardRecommends() {
@@ -33,16 +33,12 @@ public class CardDetailResponse extends BaseResponse implements Parcelable{
     public CardDetailResponse(Parcel in)
     {
         super();
-        this.status = in.readInt();
-        this.description = in.readString();
         this.cardRecommends = in.readArrayList(CardRecommend.class.getClassLoader());
     }
 
     @Override
     public void writeToParcel(Parcel dest, int flags)
     {
-        dest.writeInt(status);
-        dest.writeString(description);
         dest.writeList(cardRecommends);
     }
 

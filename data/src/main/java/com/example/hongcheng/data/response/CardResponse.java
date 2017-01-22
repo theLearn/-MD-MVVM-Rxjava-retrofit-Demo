@@ -10,7 +10,7 @@ import java.util.List;
 /**
  * Created by hongcheng on 16/9/11.
  */
-public class CardResponse extends BaseResponse  implements Parcelable{
+public class CardResponse implements Parcelable{
     private List<Card> cardList;
 
     public List<Card> getCardList() {
@@ -34,16 +34,12 @@ public class CardResponse extends BaseResponse  implements Parcelable{
     public CardResponse(Parcel in)
     {
         super();
-        this.status = in.readInt();
-        this.description = in.readString();
         this.cardList = in.readArrayList(Card.class.getClassLoader());
     }
 
     @Override
     public void writeToParcel(Parcel dest, int flags)
     {
-        dest.writeInt(status);
-        dest.writeString(description);
         dest.writeList(cardList);
     }
 

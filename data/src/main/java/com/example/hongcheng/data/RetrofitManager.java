@@ -3,6 +3,7 @@ package com.example.hongcheng.data;
 import android.content.Context;
 
 import com.example.hongcheng.common.util.NetUtils;
+import com.example.hongcheng.common.util.StringUtils;
 
 import java.io.File;
 import java.io.IOException;
@@ -43,7 +44,8 @@ public class RetrofitManager {
                 okHttpBuilder.cache(new Cache(httpCache, HttpConstants.HTTP_RESPONSE_DISK_CACHE_MAX_SIZE));
             }
             //设置缓存策略
-            okHttpBuilder.interceptors().add(new MyInterceptors(context));
+            okHttpBuilder.addNetworkInterceptor(new CacheInterceptors(context));
+            okHttpBuilder.addInterceptor(new CacheInterceptors(context));
 
             //设置超时时间
             okHttpBuilder.connectTimeout(HttpConstants.CONNECT_TIMEOUT, TimeUnit.MILLISECONDS);
@@ -74,11 +76,11 @@ public class RetrofitManager {
         return mRetrofit;
     }
 
-    private static class MyInterceptors implements Interceptor {
+    private static class CacheInterceptors implements Interceptor {
 
         private Context context;
 
-        public MyInterceptors(Context context) {
+        public CacheInterceptors(Context context) {
             this.context = context;
         }
 
@@ -95,13 +97,15 @@ public class RetrofitManager {
                 //有网的时候读接口上的@Headers里的配置，你可以在这里进行统一的设置
                 String cacheControl = request.cacheControl().toString();
                 return response.newBuilder()
-                        .header("Cache-Control", cacheControl)
                         .removeHeader("Pragma")
+                        .removeHeader("Cache-Control")
+                        .header("Cache-Control", StringUtils.isEmpty(cacheControl) ? HttpConstants.CACHE_CONTROL_ERROR : cacheControl)
                         .build();
             }else{
                 return response.newBuilder()
-                        .header("Cache-Control", HttpConstants.CACHE_CONTROL_CACHE)
                         .removeHeader("Pragma")
+                        .removeHeader("Cache-Control")
+                        .header("Cache-Control", HttpConstants.CACHE_CONTROL_CACHE)
                         .build();
             }
         }

@@ -1,6 +1,7 @@
 package com.example.hongcheng.data.request;
 
 import com.example.hongcheng.data.HttpConstants;
+import com.example.hongcheng.data.response.BaseResponse;
 import com.example.hongcheng.data.response.CardResponse;
 import com.example.hongcheng.data.response.CardDetailResponse;
 
@@ -14,8 +15,8 @@ import rx.Observable;
 public interface CardRetrofit {
 
     @GET(HttpConstants.GET_CARDS_URL)
-    Observable<CardResponse> listCards();
+    Observable<BaseResponse<CardResponse>> listCards();
 
     @GET(HttpConstants.GET_CARDS_DETAIL)
-    Observable<CardDetailResponse> getCardDetail(@Query("type") String type);
+    Observable<BaseResponse<CardDetailResponse>> getCardDetail(@Query("type") String type);
 }
