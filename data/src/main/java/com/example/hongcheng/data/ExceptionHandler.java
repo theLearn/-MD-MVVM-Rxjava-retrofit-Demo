@@ -2,6 +2,7 @@ package com.example.hongcheng.data;
 
 import android.net.ParseException;
 
+import com.example.hongcheng.common.util.LoggerUtils;
 import com.google.gson.JsonParseException;
 
 import org.json.JSONException;
@@ -16,6 +17,7 @@ import retrofit2.adapter.rxjava.HttpException;
 public class ExceptionHandler {
 
     public static ActionException handleException(Throwable e) {
+        LoggerUtils.error(ExceptionHandler.class.getName(), e.getMessage());
         ActionException ex;
         if (e instanceof HttpException) {
             HttpException httpException = (HttpException) e;

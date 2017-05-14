@@ -131,16 +131,14 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                 setAbTitle(R.string.my_shopping);
                 break;
             case R.id.nav_main_message:
-                item.setChecked(true);
-                setAbTitle(R.string.my_message);
-                break;
+                startActivity(new Intent(this, TestUploadAndDownloadActivity.class));
+                return false;
             case R.id.nav_main_search:
                 startActivity(new Intent(this, FindActivity.class));
                 return false;
             case R.id.nav_main_setting:
-                item.setChecked(true);
-                setAbTitle(R.string.setting);
-                break;
+                startActivity(new Intent(this, TestInterfaceActivity.class));
+                return false;
             default:
                 break;
         }

@@ -2,7 +2,7 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 24
-    buildToolsVersion "24.0.1"
+    buildToolsVersion '25.0.0'
 
     defaultConfig {
         applicationId "com.example.hongcheng.learndemo"
@@ -10,6 +10,15 @@ android {
         targetSdkVersion 24
         versionCode 1
         versionName "1.0"
+        multiDexEnabled true
+        ndk {
+            moduleName "test"
+        }
+
+        sourceSets.main {
+            jniLibs.srcDir 'src/main/jni'
+            jni.srcDirs = [] //disable automatic ndk-build call
+        }
     }
     buildTypes {
         release {
@@ -25,11 +34,14 @@ android {
 
 dependencies {
     provided fileTree(include: ['*.jar'], dir: 'libs')
-    testCompile 'junit:junit:4.12'
-    compile 'com.squareup.leakcanary:leakcanary-android:1.4-beta2'
     compile project(':data')
+
+    //RecyclerView Adapter库
+//    compile 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.8.6'
+    compile 'com.squareup.leakcanary:leakcanary-android:1.4-beta2'
     compile 'com.android.support:design:24.1.1'
     compile 'com.android.support:appcompat-v7:24.1.1'
     compile 'com.android.support:cardview-v7:24.1.1'
-    compile 'com.android.support:recyclerview-v7:24.1.1'
+    compile 'com.android.support.constraint:constraint-layout:1.0.2'
+    testCompile 'junit:junit:4.12'
 }

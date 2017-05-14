@@ -3,15 +3,20 @@ package com.example.hongcheng.data.response.models;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.example.hongcheng.common.util.JsonUtils;
+
 /**
  * Created by hongcheng on 16/9/15.
  */
-public class CardRecommend implements Parcelable{
+public class CardRecommend implements IModelConvert{
+    private long id;
     private String imageUrl;
-    private String content;
     private String description;
-    private String date;
+    private String type;
+    private String content;
     private String infoId;
+    private String date;
+
 
     public String getImageUrl() {
         return imageUrl;
@@ -52,15 +57,37 @@ public class CardRecommend implements Parcelable{
     public void setInfoId(String infoId) {
         this.infoId = infoId;
     }
-
-    public CardRecommend(String imageUrl, String content, String description, String date, String infoId) {
-        this.imageUrl = imageUrl;
-        this.content = content;
-        this.description = description;
-        this.date = date;
-        this.infoId = infoId;
+    
+    public long getId()
+    {
+        return id;
     }
-
+    
+    public void setId(long id)
+    {
+        this.id = id;
+    }
+    
+    public String getType()
+    {
+        return type;
+    }
+    
+    public void setType(String type)
+    {
+        this.type = type;
+    }
+    
+    public CardRecommend(String imageUrl, String description, String type, String content, String infoId, String date)
+    {
+        this.imageUrl = imageUrl;
+        this.description = description;
+        this.type = type;
+        this.content = content;
+        this.infoId = infoId;
+        this.date = date;
+    }
+    
     @Override
     public int describeContents()
     {
@@ -74,8 +101,10 @@ public class CardRecommend implements Parcelable{
     public CardRecommend(Parcel in)
     {
         super();
+        this.id = in.readLong();
         this.imageUrl = in.readString();
         this.content = in.readString();
+        this.type = in.readString();
         this.description = in.readString();
         this.date = in.readString();
         this.infoId = in.readString();
@@ -84,9 +113,11 @@ public class CardRecommend implements Parcelable{
     @Override
     public void writeToParcel(Parcel dest, int flags)
     {
+        dest.writeLong(id);
         dest.writeString(imageUrl);
         dest.writeString(content);
         dest.writeString(description);
+        dest.writeString(type);
         dest.writeString(date);
         dest.writeString(infoId);
     }
@@ -103,4 +134,16 @@ public class CardRecommend implements Parcelable{
             return new CardRecommend[size];
         }
     };
+    
+    @Override
+    public String toString()
+    {
+        return "CardRecommend{" + "id=" + id + ", imageUrl='" + imageUrl + '\'' + ", content='" + content + '\'' + ", description='" + description + '\'' + ", date='" + date + '\'' + ", infoId='" + infoId + '\'' + '}';
+    }
+    
+    @Override
+    public String toJsonStr()
+    {
+        return JsonUtils.toJsonStr(this);
+    }
 }

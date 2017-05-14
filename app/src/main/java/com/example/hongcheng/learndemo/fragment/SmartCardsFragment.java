@@ -8,13 +8,13 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.TypedValue;
 
+import com.example.hongcheng.common.util.LoggerUtils;
 import com.example.hongcheng.data.ActionException;
 import com.example.hongcheng.data.BaseSubscriber;
 import com.example.hongcheng.data.RetrofitClient;
 import com.example.hongcheng.data.RetrofitManager;
 import com.example.hongcheng.data.request.CardRetrofit;
 import com.example.hongcheng.data.response.BaseResponse;
-import com.example.hongcheng.data.response.CardResponse;
 import com.example.hongcheng.data.response.models.Card;
 import com.example.hongcheng.learndemo.R;
 import com.example.hongcheng.learndemo.adapter.CardAdapter;
@@ -65,8 +65,8 @@ public class SmartCardsFragment extends BaseFragment implements SwipeRefreshLayo
     }
 
     private void getData() {
-        mSubscriptions.add(RetrofitClient.getInstance().a(RetrofitManager.createRetrofit(BaseApplication.getInstance(), CardRetrofit.class)
-                .listCards(), new BaseSubscriber<BaseResponse<CardResponse>>(BaseApplication.getInstance()) {
+        mSubscriptions.add(RetrofitClient.getInstance().map(RetrofitManager.createRetrofit(BaseApplication.getInstance(), CardRetrofit.class)
+                .listCards(), new BaseSubscriber<BaseResponse<List<Card>>>(BaseApplication.getInstance()) {
             @Override
             public void onError(ActionException e) {
                 SnackbarUtil.show(rootView, e.getMessage());
@@ -85,7 +85,7 @@ public class SmartCardsFragment extends BaseFragment implements SwipeRefreshLayo
             }
 
             @Override
-            public void onBaseNext(BaseResponse<CardResponse> cardResponse) {
+            public void onBaseNext(BaseResponse<List<Card>> cardResponse) {
                 srf.setRefreshing(false);
 
                 if(cardResponse == null){
@@ -94,8 +94,9 @@ public class SmartCardsFragment extends BaseFragment implements SwipeRefreshLayo
                 }
 
                 if (cardResponse.isSuccess()) {
+                    LoggerUtils.error(SmartCardsFragment.class.getName(), cardResponse.toString());
                     List<CardModel> data = new ArrayList<CardModel>();
-                    for (Card card : cardResponse.getData().getCardList()) {
+                    for (Card card : cardResponse.getData()) {
                         CardModel model = new CardModel(card.getName(), card.getImageUrl(), card.getDescription(), card.getType());
                         data.add(model);
                     }
@@ -107,57 +108,6 @@ public class SmartCardsFragment extends BaseFragment implements SwipeRefreshLayo
                 }
             }
         }));
-//        mSubscriptions.add(RetrofitManager.createRetrofit(BaseApplication.getInstance(), CardRetrofit.class)
-//                .listCards()
-//                .subscribeOn(Schedulers.io())
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .subscribe(new Subscriber<BaseResponse<CardResponse>>() {
-//                    @Override
-//                    public void onCompleted() {
-//
-//                    }
-//
-//                    @Override
-//                    public void onError(Throwable e) {
-//                        SnackbarUtil.show(rootView, e.getMessage());
-//                        srf.setRefreshing(false);
-//
-//                        List<CardModel> data = new ArrayList<CardModel>();
-//                        data.add(new CardModel("我家网络", "http://aa", "可以管理wifi哦", ""));
-//                        data.add(new CardModel("我家看看", "http://aa", "可以看视频哦", ""));
-//                        data.add(new CardModel("我家存储", "http://aa", "里面有好东西哦", ""));
-//                        data.add(new CardModel("能耗管理", "http://aa", "节约用电，人人有责", ""));
-//                        data.add(new CardModel("家庭安防", "http://aa", "让你的家更安全", ""));
-//                        data.add(new CardModel("环境监控", "http://aa", "随时感知房间环境的变化，是生活更舒适", ""));
-//
-//                        mAdapter.setData(data);
-//                        mAdapter.notifyDataSetChanged();
-//                    }
-//
-//                    @Override
-//                    public void onNext(BaseResponse<CardResponse> cardResponse) {
-//                        srf.setRefreshing(false);
-//
-//                        if(cardResponse == null){
-//                            SnackbarUtil.show(rootView, "cardResponse is null");
-//                            return;
-//                        }
-//
-//                        if (cardResponse.isSuccess()) {
-//                            List<CardModel> data = new ArrayList<CardModel>();
-//                            for (Card card : cardResponse.getData().getCardList()) {
-//                                CardModel model = new CardModel(card.getName(), card.getImageUrl(), card.getDescription(), card.getType());
-//                                data.add(model);
-//                            }
-//
-//                            mAdapter.setData(data);
-//                            mAdapter.notifyDataSetChanged();
-//                        } else {
-//                            SnackbarUtil.show(rootView, cardResponse.getDescription());
-//                        }
-//                    }
-//                })
-//        );
     }
 
     @Override

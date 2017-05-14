@@ -3,10 +3,12 @@ package com.example.hongcheng.data.response.models;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.example.hongcheng.common.util.JsonUtils;
+
 /**
  * Created by hongcheng on 16/9/11.
  */
-public class Card implements Parcelable{
+public class Card implements IModelConvert{
     private String name;
     private String imageUrl;
     private String description;
@@ -84,4 +86,16 @@ public class Card implements Parcelable{
             return new Card[size];
         }
     };
+    
+    @Override
+    public String toString()
+    {
+        return "Card{" + "name='" + name + '\'' + ", imageUrl='" + imageUrl + '\'' + ", description='" + description + '\'' + ", type='" + type + '\'' + '}';
+    }
+    
+    @Override
+    public String toJsonStr()
+    {
+        return JsonUtils.toJsonStr(this);
+    }
 }

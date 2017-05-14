@@ -25,7 +25,7 @@ public class RetrofitClient {
 
     }
 
-    public <T> Subscription a(Observable<BaseResponse<T>> observable, BaseSubscriber<BaseResponse<T>> subscriber)
+    public <T> Subscription map(Observable<BaseResponse<T>> observable, BaseSubscriber<BaseResponse<T>> subscriber)
     {
         return observable.compose(schedulersTransformer())
                 .compose(transformer())

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+        <variable name="viewModel" type="com.example.hongcheng.learndemo.viewModel.TestInterfaceModel"/>
+    </data>
+
+    <android.support.design.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <android.support.design.widget.AppBarLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/tb_test_interfaace"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="?attr/colorPrimary"
+                app:layout_scrollFlags="scroll|enterAlways|snap"
+                app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+        </android.support.design.widget.AppBarLayout>
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+                <Button
+                    android:id="@+id/bt_test_interface_post"
+                    style="@style/bt_bottom"
+                    android:text="@{viewModel.post}" />
+                <Button
+                    android:id="@+id/bt_test_interface_delete"
+                    style="@style/bt_bottom"
+                    android:text="@{viewModel.delete}" />
+                <Button
+                    android:id="@+id/bt_test_interface_put"
+                    style="@style/bt_bottom"
+                    android:text="@{viewModel.put}" />
+                <Button
+                    android:id="@+id/bt_test_interface_get"
+                    style="@style/bt_bottom"
+                    android:text="@{viewModel.get}" />
+                <TextView
+                    android:id="@+id/tv_test_interface_response"
+                    style="@style/tv_default"
+                    android:layout_marginLeft="@dimen/default_dimen"
+                    android:layout_marginTop="@dimen/default_dimen"
+                    android:layout_marginBottom="@dimen/default_dimen"
+                    android:text="@{viewModel.response}"/>
+
+            </LinearLayout>
+        </ScrollView>
+
+    </android.support.design.widget.CoordinatorLayout>
+
+</layout>
+

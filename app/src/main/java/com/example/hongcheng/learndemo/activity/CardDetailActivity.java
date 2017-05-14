@@ -16,7 +16,6 @@ import com.example.hongcheng.data.RetrofitClient;
 import com.example.hongcheng.data.RetrofitManager;
 import com.example.hongcheng.data.request.CardRetrofit;
 import com.example.hongcheng.data.response.BaseResponse;
-import com.example.hongcheng.data.response.CardDetailResponse;
 import com.example.hongcheng.data.response.models.CardRecommend;
 import com.example.hongcheng.learndemo.R;
 import com.example.hongcheng.learndemo.adapter.ListInfoAdapter;
@@ -83,8 +82,8 @@ public class CardDetailActivity extends BaseActivity {
     }
 
     private void getData(String type) {
-        mSubscriptions.add(RetrofitClient.getInstance().a(RetrofitManager.createRetrofit(BaseApplication.getInstance(), CardRetrofit.class)
-                .getCardDetail(type), new BaseSubscriber<BaseResponse<CardDetailResponse>>(BaseApplication.getInstance()) {
+        mSubscriptions.add(RetrofitClient.getInstance().map(RetrofitManager.createRetrofit(BaseApplication.getInstance(), CardRetrofit.class)
+                .getCardDetail(type), new BaseSubscriber<BaseResponse<List<CardRecommend>>>(BaseApplication.getInstance()) {
             @Override
             public void onError(ActionException e) {
                 SnackbarUtil.show(binding.getRoot(), e.getMessage());
@@ -105,7 +104,7 @@ public class CardDetailActivity extends BaseActivity {
             }
 
             @Override
-            public void onBaseNext(BaseResponse<CardDetailResponse> cardDetailResponse) {
+            public void onBaseNext(BaseResponse<List<CardRecommend>> cardDetailResponse) {
                 if (cardDetailResponse == null) {
                     SnackbarUtil.show(binding.getRoot(), "cardDetailResponse is null");
                     return;
@@ -113,7 +112,7 @@ public class CardDetailActivity extends BaseActivity {
 
                 if (cardDetailResponse.isSuccess()) {
                     List<ListInfoModel> data = new ArrayList<ListInfoModel>();
-                    for (CardRecommend item : cardDetailResponse.getData().getCardRecommends()) {
+                    for (CardRecommend item : cardDetailResponse.getData()) {
                         ListInfoModel model = new ListInfoModel(item.getImageUrl(), item.getContent(), item.getDescription(), item.getDate(), item.getInfoId());
                         data.add(model);
                     }
@@ -124,50 +123,6 @@ public class CardDetailActivity extends BaseActivity {
                 }
             }
         }));
-//        mSubscriptions.add(RetrofitManager.createRetrofit(BaseApplication.getInstance(), CardRetrofit.class)
-//                .getCardDetail(type)
-//                .subscribeOn(Schedulers.io())
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .subscribe(new BaseSubscriber<BaseResponse<CardDetailResponse>>(BaseApplication.getInstance()) {
-//                    @Override
-//                    public void onError(ActionException e) {
-//                        SnackbarUtil.show(binding.getRoot(), e.getMessage());
-//                        List<ListInfoModel> data = new ArrayList<ListInfoModel>();
-//                        data.add(new ListInfoModel("http://aa", "从零开始", "20话", "2016-09-15 00:00:00", ""));
-//                        data.add(new ListInfoModel("http://aa", "龙珠超", "20话", "2016-09-15 00:00:00", ""));
-//                        data.add(new ListInfoModel("http://aa", "灵能百分百", "20话", "2016-09-15 00:00:00", ""));
-//                        data.add(new ListInfoModel("http://aa", "驱魔少年", "20话", "2016-09-15 00:00:00", ""));
-//                        data.add(new ListInfoModel("http://aa", "热诚传说", "20话", "2016-09-15 00:00:00", ""));
-//                        data.add(new ListInfoModel("http://aa", "弹丸论破", "20话", "2016-09-15 00:00:00", ""));
-//                        data.add(new ListInfoModel("http://aa", "海贼王", "20话", "2016-09-15 00:00:00", ""));
-//                        data.add(new ListInfoModel("http://aa", "美食的俘虏", "20话", "2016-09-15 00:00:00", ""));
-//                        data.add(new ListInfoModel("http://aa", "食戟之灵", "20话", "2016-09-15 00:00:00", ""));
-//                        data.add(new ListInfoModel("http://aa", "狐妖小红娘", "20话", "2016-09-15 00:00:00", ""));
-//
-//                        mAdapter.setData(data);
-//                        mAdapter.notifyDataSetChanged();
-//                    }
-//
-//                    @Override
-//                    public void onBaseNext(BaseResponse<CardDetailResponse> cardDetailResponse) {
-//                        if (cardDetailResponse == null) {
-//                            SnackbarUtil.show(binding.getRoot(), "cardDetailResponse is null");
-//                            return;
-//                        }
-//
-//                        if (cardDetailResponse.isSuccess()) {
-//                            List<ListInfoModel> data = new ArrayList<ListInfoModel>();
-//                            for (CardRecommend item : cardDetailResponse.getData().getCardRecommends()) {
-//                                ListInfoModel model = new ListInfoModel(item.getImageUrl(), item.getContent(), item.getDescription(), item.getDate(), item.getInfoId());
-//                                data.add(model);
-//                            }
-//                            mAdapter.setData(data);
-//                            mAdapter.notifyDataSetChanged();
-//                        } else {
-//                            SnackbarUtil.show(binding.getRoot(), cardDetailResponse.getDescription());
-//                        }
-//                    }
-//                }));
     }
 
     private AppBarStateChangeListener listener = new AppBarStateChangeListener() {

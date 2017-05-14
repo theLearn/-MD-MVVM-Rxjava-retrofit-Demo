@@ -41,6 +41,7 @@ public abstract class BaseSubscriber<T extends BaseResponse> extends Subscriber<
         }
         else
         {
+            LoggerUtils.error(BaseSubscriber.class.getName(), e.getMessage());
             onError(new ActionException(ExceptionHandler.ERROR.UNKNOWN, "unknow error"));
         }
     }

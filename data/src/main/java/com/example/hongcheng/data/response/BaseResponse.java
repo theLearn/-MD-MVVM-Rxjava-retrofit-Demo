@@ -38,4 +38,10 @@ public class BaseResponse<T>{
     public boolean isSuccess(){
         return BaseConstants.STATUS_SUCCESS == status;
     }
+    
+    @Override
+    public String toString()
+    {
+        return "BaseResponse{" + "status=" + status + ", description='" + description + '\'' + ", data=" + data + '}';
+    }
 }

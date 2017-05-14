@@ -19,6 +19,7 @@ public class CommonBindingAdapter {
                 Picasso.with(view.getContext()).load(url)
                         .resize(view.getMeasuredWidth(), view.getMeasuredHeight())
                         .centerCrop()
+                        .placeholder(BaseApplication.getInstance().getResources().getDrawable(R.mipmap.example))
                         .error(BaseApplication.getInstance().getResources().getDrawable(R.mipmap.example))
                         .into(view);
             }

@@ -1,5 +1,7 @@
 package com.example.hongcheng.common.util;
 
+import com.google.gson.Gson;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -780,5 +782,10 @@ public final class JsonUtils {
             }
             return null;
         }
+    }
+    
+    public static String toJsonStr(Object obj)
+    {
+        return new Gson().toJson(obj);
     }
 }

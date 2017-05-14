@@ -21,11 +21,14 @@ public class HttpConstants {
     public static final String CACHE_CONTROL_NETWORK = "max-age=0";
 
     //基础路径
-    public static final String BASE_URL = "http:192.168.1.102:8080/";
+    public static final String BASE_URL = "http:192.168.1.101:8080/";
 
     //获取卡片信息路径
-    public static final String GET_CARDS_URL = "listCards";
+    public static final String GET_CARDS_URL = "card/cards";
 
     //获取卡片信息路径
-    public static final String GET_CARDS_DETAIL = "getCardDetail";
+    public static final String GET_CARDS_DETAIL = "card/cardDetail";
+    
+    //文件上传下载路径
+    public static final String FILE_OPERATE = "file/operate";
 }
